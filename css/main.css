@@ -10,15 +10,15 @@ html, body, #grid {
 #grid .grid-cell {
   width: 33%;
   height: 33%;
-  background: #eee;
+  background-color: 33FF00;
   float: left;
-  border: 1px solid #ccc;
+  border: 3px solid #808080;
   box-sizing: border-box;
 }
 
 #grid .grid-cell:hover {
   background-color: #ddd;
-  cursor: pointer;
+  cursor: crosshair;
 }
 
 .side {
