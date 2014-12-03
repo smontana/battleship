@@ -1,0 +1,48 @@
+<html>
+
+  <head>
+
+    <title>Battle | Ship</title>
+    <link href="css/main.css" type="text/css" rel="stylesheet"></link>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <script>
+
+    $(document).ready(function(){
+        $(".grid-cell").click(function(){
+          var x = $(this).data("x");
+          var y = $(this).data("y");
+
+          alert("X:"+x+" | "+"Y:"+y);
+
+          $(this).removeData("x");
+          $(this).removeData("y");
+
+        });
+    });
+
+    </script>
+
+  </head>
+
+
+  <body onload="build_grid()">
+
+    <div id="grid">
+      
+      <div id="user_side" class="user-side">
+
+      
+
+      </div>
+
+      <div id="machine_side" class="machine-side">
+
+
+        
+      </div>
+
+  </body>
+
+</html>

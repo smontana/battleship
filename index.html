@@ -6,6 +6,7 @@
     <link href="css/main.css" type="text/css" rel="stylesheet"></link>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/underscore.min.js"></script>
 
   </head>
 
@@ -14,37 +15,9 @@
 
     <div id="grid">
       
-      <div id="user_side" class="user-side">
+      <div id="user_side" class="user-side"></div>
 
-        <div data-x='1' data-y='3' class="grid-cell"></div>
-        <div data-x='2' data-y='3' class="grid-cell"></div>
-        <div data-x='3' data-y='3' class="grid-cell"></div>
-
-        <div data-x='1' data-y='2' class="grid-cell"></div>
-        <div data-x='2' data-y='2' class="grid-cell"></div>
-        <div data-x='3' data-y='2' class="grid-cell"></div>
-
-        <div data-x='1' data-y='1' class="grid-cell"></div>
-        <div data-x='2' data-y='1' class="grid-cell"></div>
-        <div data-x='3' data-y='1' class="grid-cell"></div>
-
-      </div>
-
-      <div id="machine_side" class="machine-side">
-
-        <div data-x='1' data-y='3' class="machine-grid-cell"></div>
-        <div data-x='2' data-y='3' class="machine-grid-cell"></div>
-        <div data-x='3' data-y='3' class="machine-grid-cell"></div>
-
-        <div data-x='1' data-y='2' class="machine-grid-cell"></div>
-        <div data-x='2' data-y='2' class="machine-grid-cell"></div>
-        <div data-x='3' data-y='2' class="machine-grid-cell"></div>
-
-        <div data-x='1' data-y='1' class="machine-grid-cell"></div>
-        <div data-x='2' data-y='1' class="machine-grid-cell"></div>
-        <div data-x='3' data-y='1' class="machine-grid-cell"></div>
-
-      </div>
+      <div id="machine_side" class="machine-side"></div>
 
       <button id="popup_window" data-popup-target="#firing-popup">
 
@@ -72,6 +45,8 @@
 
               </p1>
 
+              <br></br>
+
               <p2>
 
                 Y:
@@ -87,44 +62,52 @@
         <div class="popup-overlay"></div>
 
         <script type="text/javascript">
+            $(document).ready(function(event){
+              
+              start();
 
-            //<![CDATA[ 
-            $(window).load(function(){
-            jQuery(document).ready(function ($) {
-     
-            $('[data-popup-target]').click(function () {
-                $('html').addClass('overlay');
-                var activePopup = $(this).attr('data-popup-target');
-                $(activePopup).addClass('visible');
-         
+              $(".grid-cell").click(function(){
+                var x = $(this).data("x");
+                var y = $(this).data("y");
+
+                alert("X:"+x+" | "+"Y:"+y);
+
+                $(this).removeData("x");
+                $(this).removeData("y");
+
+              });
+
+              $('[data-popup-target]').click(function () {
+                  $('html').addClass('overlay');
+                  var activePopup = $(this).attr('data-popup-target');
+                  $(activePopup).addClass('visible');
+           
+              });
+       
+              $(document).keyup(function (e) {
+                  if (e.keyCode == 27 && $('html').hasClass('overlay')) {
+                      clearPopup();
+                  }
+              });
+       
+              $('.popup-exit').click(function () {
+                  clearPopup();
+           
+              });
+       
+              $('.popup-overlay').click(function () {
+                  clearPopup();
+              });
+       
+              function clearPopup() {
+                  $('.popup.visible').addClass('transitioning').removeClass('visible');
+                  $('html').removeClass('overlay');
+       
+              setTimeout(function () {
+                  $('.popup').removeClass('transitioning');
+                }, 200);
+              }
             });
-     
-            $(document).keyup(function (e) {
-                if (e.keyCode == 27 && $('html').hasClass('overlay')) {
-                    clearPopup();
-                }
-            });
-     
-            $('.popup-exit').click(function () {
-                clearPopup();
-         
-            });
-     
-            $('.popup-overlay').click(function () {
-                clearPopup();
-            });
-     
-            function clearPopup() {
-                $('.popup.visible').addClass('transitioning').removeClass('visible');
-                $('html').removeClass('overlay');
-     
-            setTimeout(function () {
-                $('.popup').removeClass('transitioning');
-              }, 200);
-            }
-     
-            });
-            });//]]>
 
         </script>
 
