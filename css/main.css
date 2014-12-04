@@ -4,6 +4,10 @@ html, body, #grid {
   box-sizing: border-box;
 }
 
+h1 {
+  text-align: center;
+}
+
 #grid .grid-cell {
   width: 33.3333%;
   height: 33.3333%;

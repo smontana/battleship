@@ -15,9 +15,9 @@
 
     <div id="grid">
       
-      <div id="user_side" class="user-side"></div>
+      <div id="user_side" class="user-side"><h1>You</h1></div>
 
-      <div id="machine_side" class="machine-side"></div>
+      <div id="machine_side" class="machine-side"><h1>The Machine</h1></div>
 
       <button id="popup_window" data-popup-target="#firing-popup">
 
@@ -67,13 +67,21 @@
               start();
 
               $(".grid-cell").click(function(){
-                var x = $(this).data("x");
-                var y = $(this).data("y");
+                  // var machine_ship.cells.length
+                  var x = $(this).data("x");
+                  var y = $(this).data("y");
 
-                alert("X:"+x+" | "+"Y:"+y);
+                  match = _.find(machine_ship.cells, function(cell){
+                    return($(cell).data("x") == x && $(cell).data("y") == y);
+                  });
 
-                $(this).removeData("x");
-                $(this).removeData("y");
+                  if(_.isUndefined(match)) {
+                    alert('miss!')
+                    return;
+                  } else {
+                    alert('hit!')
+                    machine_ship.add_hit_cell(match)
+                  }
 
               });
 

@@ -1,8 +1,11 @@
 var grid;
 
 var grid_options = {
-	size: 20
+	size: 12
 }
+
+var user_ship;
+var machine_ship;
 
 function start() {
 	build_grid( grid_options );
@@ -40,30 +43,36 @@ function build_grid(options) {
 }
 
 function randomly_place_ships() {
+	
+	user_ship = build_ship('user');
+	machine_ship = build_ship('machine');
+	
+
+}
+
+function build_ship(target_side) {
 	var board_size = grid_options['size']
 
 	var max_ship_width = 10;
 	var min_ship_width = 5;
 
+
 	var battleShip = {
-
 		size: _.random(max_ship_width, min_ship_width),
-		placement:
-			{
-				xOne:0,
-				yOne:0,
-
-				xTwo:0,
-				yTwo:0,
-
-				xThree:0,
-				yThree:0,
-
-				xFour:0,
-				yFour:0
-			}
-
+		cells: {},
+		hit_cells: [],
+		hit_cell_coordinates: function(){
+			return _.map(this.hit_cells, function(hit_cell){
+				return([hit_cell.data("x"), hit_cell.data("y")]);
+			})
+		},
+		add_hit_cell: function (match) {
+			// todo: check that match is not already in hit cells before push
+			$(match).css('background', 'red');
+			this.hit_cells.push($(match));
+		}
 	}
+
 
 	// pick random number between variables above
 	//var ship_size = 
@@ -77,67 +86,65 @@ function randomly_place_ships() {
 	// look left/right for x to choose which way to orient ship
 	// accomodate ship_size
 
-	start_cell = find_cell_at(start_x, start_y);
+	start_cell = find_cell_at(start_x, start_y, target_side);
 
-	debugger;
+	ship_cells = [];
 
-	if( (board_size - start_x) > battleShip['size']) {
-
-		battleShip.placement.xOne = start_x;
-		battleShip.placement.xTwo = start_x + 1;
-		battleShip.placement.xThree = start_x + 2;
-		battleShip.placement.xFour = start_x + 3;
-		
-		//go right
-
-	} else {
-
-		battleShip.placement.xOne = start_x;
-		battleShip.placement.xTwo = start_x - 1;
-		battleShip.placement.xThree = start_x - 2;
-		battleShip.placement.xFour = start_x - 3;
-
-		// go left
-
+	var ship_is_not_too_far_right = function(){
+		return( (board_size - start_x) > battleShip['size'] );
 	}
 
-	if( (board_size - start_y) > battleShip['size']) {
-
-		battleShip.placement.yOne = start_y;
-		battleShip.placement.yTwo = start_y + 1;
-		battleShip.placement.yThree = start_y + 2;
-		battleShip.placement.yFour = start_y + 3;
-
-		// go up
-
-	} else {
-
-		battleShip.placement.yOne = start_y;
-		battleShip.placement.yTwo = start_y - 1;
-		battleShip.placement.yThree = start_y - 2;
-		battleShip.placement.yFour = start_y - 3;
-
-		// go down
-
+	var draw_ship_to_the_right = function () {
+		_(battleShip['size']).times(function(n){
+			x_index = start_x + n;
+			ship_cells.push(find_cell_at(x_index, start_y, target_side));
+		});
 	}
 
-	return console.log(battleShip.placement);
+	var draw_ship_to_the_left = function (){
+		_(battleShip['size']).times(function(n){
+			x_index = start_x - n;
+			ship_cells.push(find_cell_at(x_index, start_y, target_side));
+		});
+	}
+
+	if( ship_is_not_too_far_right() ) {
+		draw_ship_to_the_right();
+	} else {
+		draw_ship_to_the_left();
+	}
 
 
+	if(target_side=='user') {
 
+		$(ship_cells).css('background', 'blue');
+	};
+
+	
+	
+	battleShip.cells = ship_cells;
+
+	return battleShip;
 }
 
 
 
-function find_cell_at(x, y) {
-	var selector = "div.grid-cell[data-x='" + x.toString() + "'][data-y='" + y.toString() + "']";
-	return($(selector))
+function find_cell_at(x, y, target_side) {
+	var selector = "div." + target_side + "-grid-cell[data-x='" + x.toString() + "'][data-y='" + y.toString() + "']";
+	return($(selector)[0])
 }
+
+
+
+function ship_is_hit() {}
+
+
+
+
 
 
 // TASKS
 
-// place ships
 // refactor
 // give user ability to set game options
 // refactor
