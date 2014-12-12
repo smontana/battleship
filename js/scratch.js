@@ -1,6 +1,8 @@
 var grid;
 
-var grid_options;
+var grid_options = {
+	size: 10
+}
 
 var user_ship;
 var machine_ship;
@@ -14,7 +16,7 @@ function start(options) {
 function build_grid(options) {
 	var user_board;
 	var machine_board;
-	var board_size = options;
+	var board_size = options['size'];
 	var text = "";
 	var y;
 	var x;
@@ -38,9 +40,7 @@ function build_grid(options) {
 				text = ''
 
 			}
-
 		};
-		
 }
 
 function randomly_place_ships() {
@@ -52,7 +52,7 @@ function randomly_place_ships() {
 }
 
 function build_ship(target_side) {
-	var board_size = grid_options;
+	var board_size = grid_options['size']
 
 	var max_ship_width = _.random(1, (board_size*.5));
 	var min_ship_width = _.random(1, (board_size*.2));
@@ -69,19 +69,11 @@ function build_ship(target_side) {
 		},
 		add_hit_cell: function (match) {
 			// todo: check that match is not already in hit cells before push
-			existing_cell = _.filter(target_side.hit_cells, function(cell){
-				return((match.data('x') == cell.data('x')) && (match.data('y') == cell.data('y')));
-			})
-
-			if(_.isUndefined(existing_cell)){
-				$(match).css('background', 'red');
-				this.hit_cells.push($(match));
-			
-			}
-	
+			$(match).css('background', 'red');
+			this.hit_cells.push($(match));
 		}
-
 	}
+
 
 	// pick random number between variables above
 	//var ship_size = 
@@ -127,12 +119,11 @@ function build_ship(target_side) {
 	if(target_side=='user') {
 
 		$(ship_cells).css('background', 'blue');
-		$(this).addClass('user-ship-cell');
 
-	} else if(target_side=='machine') {
+	}else if(target_side=='machine') {
 
-		$(ship_cells).css('background', 'blue');
-		$(this).addClass('machine-ship-cell');
+		$(ship_cells).css('background', 'blue')
+
 	};
 
 	
@@ -151,7 +142,82 @@ function find_cell_at(x, y, target_side) {
 
 
 
-function ship_is_hit() {}
+
+function get_machine_ready () {
+	var smarts = $("#difficulty_selector").val();
+	machine_logic(smarts);
+}
+
+
+function machine_logic (difficulty) {
+	//add "difficulty" argument to be passed
+   	//var machine_logic_difficulty taken from difficulty drop down
+
+
+
+    var machine_hit_history = {
+    			cell_selection_history: [],
+                hits: [],
+                misses: [],
+
+                //add_hit_cell_to_user: function (match) {
+                    //$(match).css('background', 'red');
+                    	//this.hits.push($(match));
+                    	//this.cell_selection_history.push($(match));
+                      	//alert('Your ship was hit!');
+                    //},
+
+                //add_miss_to_machine: function (match) {
+                    //this.misses.push($(match));
+                    //this.cell_selection_history.push($(match));
+                    //alert('The Machine missed your ships');
+                    //}
+
+    }
+
+    var easy_logic = function (difficulty) {
+    	var board_size = grid_options;
+    	var x_cooridnate = _.random(1, board_size);
+    	var y_cooridnate = _.random(1, board_size);
+
+    	cell_selection = find_cell_at(x_cooridnate, y_cooridnate, 'user');
+
+
+    }
+
+    var machineTurn = function () {
+    	var board_size = grid_options;
+    	var x_cooridnate = (_.random(1, board_size) !== machine_logic.cell_selection_history.data('x'));
+    	var y_cooridnate = (_.random(1, board_size) !== machine_logic.cell_selection_history.data('y'));
+
+
+    	cell_selection = find_cell_at(x_cooridnate, y_cooridnate, 'user');
+
+
+    	if($(cell_selection).hasClass('ship-cell')) {
+        machine_logic.add_hit_cell_to_user();
+
+    	} else {
+
+       	machine_logic.add_miss_to_machine();
+
+    	}
+
+    //find cell selection to hit
+
+    if($(cell_selection).hasClass('ship-cell')) {
+        machine_logic.add_hit_cell_to_user();
+
+    	} else {
+
+       	machine_logic.add_miss_to_machine();
+
+    	}
+
+   	}
+
+}
+// need easy, med, hard, impossible logics built out
 
 
 

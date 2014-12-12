@@ -3,6 +3,7 @@
   <head>
 
     <title>Battle | Ship</title>
+    <style type="text/css">BODY {background-image: url(background.gif);}</style>
     <link href="css/main.css" type="text/css" rel="stylesheet"></link>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
@@ -13,109 +14,139 @@
 
   <body>
 
+    <div id="startup">
+
+      <button id="start_button">START</button>
+
+      <div id="game_options">
+        <select></select>
+        <br/>
+        <a href="#" class="btn submit">Submit</a>
+      </div>
+
+    </div>
+
     <div id="grid">
       
       <div id="user_side" class="user-side"><h1>You</h1></div>
 
       <div id="machine_side" class="machine-side"><h1>The Machine</h1></div>
 
-      <button id="popup_window" data-popup-target="#firing-popup">
-
-        AIM
-
-      </button>
- 
-        <div id="firing-popup" class="popup">
-
-          <div class="popup-body">
-
-            <span class="popup-exit"></span>
- 
-            <div class="popup-content">
-
-              <h2 class="popup-title">
-
-                Input Firing Coordinates
-
-              </h2>
- 
-              <p1>
-
-                X:
-
-              </p1>
-
-              <br></br>
-
-              <p2>
-
-                Y:
-
-              </p2>
       
-            </div>
-    
-          </div>
-  
-        </div>
-
-        <div class="popup-overlay"></div>
+        <!--Refactor-->
 
         <script type="text/javascript">
-            $(document).ready(function(event){
-              
-              start();
+          $(document).ready(function(event){
+            var selectValues;
 
-              $(".grid-cell").click(function(){
-                  // var machine_ship.cells.length
-                  var x = $(this).data("x");
-                  var y = $(this).data("y");
+            $("#start_button").click(function(event){
+              selectValues = {
+                easy: {
+                  title:"Easy",
+                  grid_size: 10
+                },
 
-                  match = _.find(machine_ship.cells, function(cell){
-                    return($(cell).data("x") == x && $(cell).data("y") == y);
-                  });
+                medium: {
+                  title: "Medium",
+                  grid_size: 15
+                },
 
-                  if(_.isUndefined(match)) {
-                    alert('miss!')
-                    return;
-                  } else {
-                    alert('hit!')
-                    machine_ship.add_hit_cell(match)
-                  }
+                hard: {
+                  title: "Hard",
+                  grid_size: 20
+                },
 
-              });
-
-              $('[data-popup-target]').click(function () {
-                  $('html').addClass('overlay');
-                  var activePopup = $(this).attr('data-popup-target');
-                  $(activePopup).addClass('visible');
-           
-              });
-       
-              $(document).keyup(function (e) {
-                  if (e.keyCode == 27 && $('html').hasClass('overlay')) {
-                      clearPopup();
-                  }
-              });
-       
-              $('.popup-exit').click(function () {
-                  clearPopup();
-           
-              });
-       
-              $('.popup-overlay').click(function () {
-                  clearPopup();
-              });
-       
-              function clearPopup() {
-                  $('.popup.visible').addClass('transitioning').removeClass('visible');
-                  $('html').removeClass('overlay');
-       
-              setTimeout(function () {
-                  $('.popup').removeClass('transitioning');
-                }, 200);
+                impossible: {
+                  title:"Impossible",
+                  grid_size: 30
+                }
               }
-            });
+
+              $.each(selectValues, function(key, value){
+                option = $("<option/>")
+                option.val(key)
+                option.text(value.title)
+
+
+                $("#game_options select").append(option);
+                $("#game_options").fadeIn();
+
+                //additions
+
+                $("#start_button").fadeOut();
+
+
+
+              })
+
+            })
+
+            game_handlers = (function(){$(".grid-cell").click(function(event){
+              var x = $(this).data("x");
+              var y = $(this).data("y");
+              var total_possible_hits = machine_ship.size;
+
+
+              match = _.find(machine_ship.cells, function(cell){
+                return($(cell).data("x") == x && $(cell).data("y") == y);
+              })
+
+
+              if($(this).hasClass("user-grid-cell")==true) {
+                alert('wrong board, dummy')
+
+              } else if($(this).hasClass("hit-cell")) {
+                alert('you already fired there, moron');
+
+              } else if(_.isUndefined(match)) {
+                alert('miss!')
+
+              } else {
+                alert('hit!')
+                machine_ship.add_hit_cell(match)
+                $(this).addClass('hit-cell')
+              }
+
+              if(total_possible_hits == machine_ship.hit_cells.length) {
+                alert('YOU SANK THE SHIP!')
+                $()
+
+                // TODO: expand for more ship = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
+              }
+
+            })
+            })
+
+            // //additions
+            $( "#game_options .submit" ).click(function( event ) {
+              if ( $( "option:selected" ).val() == "easy" ) {
+
+                start(selectValues.easy.grid_size);
+                $("#game_options").fadeOut();
+
+              } else if( $( "option:selected" ).val() == "medium" ) {
+
+                start(selectValues.medium.grid_size);
+                $("#game_options").fadeOut();
+
+              } else if( $( "option:selected" ).val() == "hard" ) {
+
+                start(selectValues.hard.grid_size);
+                $("#game_options").fadeOut();
+
+              } else if( $( "option:selected" ).val() == "impossible" ) {
+
+                start(selectValues.impossible.grid_size);
+                $("#game_options").fadeOut();
+              }
+
+              game_handlers();
+
+            })
+
+            
+            
+          });
 
         </script>
 

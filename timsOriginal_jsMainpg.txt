@@ -1,20 +1,21 @@
 var grid;
 
-var grid_options;
+var grid_options = {
+	size: 12
+}
 
 var user_ship;
 var machine_ship;
 
-function start(options) {
-	grid_options = options;
-	build_grid( options );
+function start() {
+	build_grid( grid_options );
 	randomly_place_ships();
 }
 
 function build_grid(options) {
 	var user_board;
 	var machine_board;
-	var board_size = options;
+	var board_size = options['size'];
 	var text = "";
 	var y;
 	var x;
@@ -38,9 +39,7 @@ function build_grid(options) {
 				text = ''
 
 			}
-
 		};
-		
 }
 
 function randomly_place_ships() {
@@ -52,10 +51,10 @@ function randomly_place_ships() {
 }
 
 function build_ship(target_side) {
-	var board_size = grid_options;
+	var board_size = grid_options['size']
 
-	var max_ship_width = _.random(1, (board_size*.5));
-	var min_ship_width = _.random(1, (board_size*.2));
+	var max_ship_width = 10;
+	var min_ship_width = 5;
 
 
 	var battleShip = {
@@ -69,19 +68,11 @@ function build_ship(target_side) {
 		},
 		add_hit_cell: function (match) {
 			// todo: check that match is not already in hit cells before push
-			existing_cell = _.filter(target_side.hit_cells, function(cell){
-				return((match.data('x') == cell.data('x')) && (match.data('y') == cell.data('y')));
-			})
-
-			if(_.isUndefined(existing_cell)){
-				$(match).css('background', 'red');
-				this.hit_cells.push($(match));
-			
-			}
-	
+			$(match).css('background', 'red');
+			this.hit_cells.push($(match));
 		}
-
 	}
+
 
 	// pick random number between variables above
 	//var ship_size = 
@@ -127,12 +118,6 @@ function build_ship(target_side) {
 	if(target_side=='user') {
 
 		$(ship_cells).css('background', 'blue');
-		$(this).addClass('user-ship-cell');
-
-	} else if(target_side=='machine') {
-
-		$(ship_cells).css('background', 'blue');
-		$(this).addClass('machine-ship-cell');
 	};
 
 	
