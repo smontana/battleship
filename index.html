@@ -32,6 +32,12 @@
 
       <div id="machine_side" class="machine-side"><h1>The Machine</h1></div>
 
+        <div id="machine_firing_button">
+
+          <button id="machine_fire">MACHINE FIRE</button>
+
+        </div>
+
       
         <!--Refactor-->
 
@@ -43,7 +49,7 @@
               selectValues = {
                 easy: {
                   title:"Easy",
-                  grid_size: 10
+                  grid_size: 5
                 },
 
                 medium: {
@@ -66,9 +72,11 @@
                 option = $("<option/>")
                 option.val(key)
                 option.text(value.title)
+                option.data("size", ['value.grid_size'])
+                
+                //need to find out how to append data in function above so I can append data-size = value.grid_size for machine_logic
 
-
-                $("#game_options select").append(option);
+                $("#game_options select").append(option)
                 $("#game_options").fadeIn();
 
                 //additions
@@ -105,17 +113,126 @@
                 alert('hit!')
                 machine_ship.add_hit_cell(match)
                 $(this).addClass('hit-cell')
+                $(this).css('background', 'red')
               }
 
-              if(total_possible_hits == machine_ship.hit_cells.length) {
-                alert('YOU SANK THE SHIP!')
-                $()
+              // if(total_possible_hits == machine_ship.hit_cells.length) {
+              //   alert('YOU SANK THE SHIP!')
+              //   $()
 
                 // TODO: expand for more ship = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
-              }
+              // }
 
             })
             })
+
+            
+        
+
+            //testing machine firing logic
+  
+            machine_fire = (function(){$("#machine_fire").click(function(event){
+              // var board_size = $( "option:selected" ).grid_size.val();
+              // var board_size_value = board_size.grid_size;
+              // var difficulty_selection = $( "option:selected" )['grid_size'].val();
+
+              var x_possible = [];
+              var y_possible = [];
+
+              var x_guess;
+              var y_guess;
+
+              var potential_hit_cell;
+              var match;
+
+              //need major refactor
+
+              if ( $( "option:selected" ).val() == "easy" ) {
+                  // var lastIndex = all_user_cells[all_user_cells.length-1];
+
+                  var xy_guess = _.random(all_user_cells[0], all_user_cells[all_user_cells.length-1]);
+
+                  // var x_possible = _.range(all_user_cells[0], lastIndex);
+                  // var y_possible = _.range(all_user_cells[0], lastIndex);
+
+                  // var x_guess = _.random(_.min(x_possible), _.max(x_possible));
+                  // var y_guess = _.random(_.min(y_possible), _.max(y_possible));
+
+              } else if ( $( "option:selected" ).val() == "medium" ) {
+                  var x_possible = _.range(1, 16);
+                  var y_possible = _.range(1, 16);
+
+                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
+                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
+
+
+
+              } else if ( $( "option:selected" ).val() == "hard" ) {
+                  x_possible = _.range(1, 21);
+                  y_possible = _.range(1, 21);
+
+                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
+                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
+
+
+
+              } else if ( $( "option:selected" ).val() == "impossible" ) {
+                  x_possible = _.range(1, 31);
+                  y_possible = _.range(1, 31);
+
+
+                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
+                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
+
+
+
+              }
+
+
+
+
+              // match = find_cell_at(x_guess, y_guess, "user");
+
+                // match = _.uniq(user_side.cells, false, function(cell) {
+                //           _.uniq(past_hits, false, function(cell) { return ($(cell).data("x") == x_guess && $(cell).data("y") == y_guess)});
+                //         })
+
+              // match =_.find(user_side.cells, function(cell){
+              //   return _.uniq(user_side.cells, false, function(cell) { return ($(cell).data("x") == x_guess && $(cell).data("y") == y_guess)});
+              // })
+
+              // unique_match = _.isUndefined(_.findWhere(past_hits, match));
+
+
+              match = machine_locate(xy_guess);
+
+              var index = all_user_cells.indexOf(match);
+              all_user_cells.splice(index, 1);
+
+              if($(match).hasClass("user-ship-cell")) {
+                alert("The Machine hit your ship")
+                $(match).addClass('hit-cell')
+                $(match).css('background', 'red')
+                past_hits.push(match);
+
+              } else {
+                alert("The Machine missed at = " + xy_guess)
+                $(match).addClass('hit-cell')
+                $(match).css('background', 'red')
+                past_hits.push(match);
+
+              }
+
+
+
+            })
+            })
+
+
+
+
+
+
 
             // //additions
             $( "#game_options .submit" ).click(function( event ) {
@@ -123,28 +240,33 @@
 
                 start(selectValues.easy.grid_size);
                 $("#game_options").fadeOut();
+                $("#machine_fire").fadeIn();
 
               } else if( $( "option:selected" ).val() == "medium" ) {
 
                 start(selectValues.medium.grid_size);
                 $("#game_options").fadeOut();
+                $("#machine_fire").fadeIn();
 
               } else if( $( "option:selected" ).val() == "hard" ) {
 
                 start(selectValues.hard.grid_size);
                 $("#game_options").fadeOut();
+                $("#machine_fire").fadeIn();
 
               } else if( $( "option:selected" ).val() == "impossible" ) {
 
                 start(selectValues.impossible.grid_size);
                 $("#game_options").fadeOut();
+                $("#machine_fire").fadeIn();
+
               }
 
               game_handlers();
 
             })
 
-            
+            machine_fire();
             
           });
 

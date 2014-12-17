@@ -1,9 +1,14 @@
+var all_user_cells = [];
+var all_machine_cells = [];
+
 var grid;
 
 var grid_options;
 
 var user_ship;
 var machine_ship;
+
+var past_hits = [];
 
 function start(options) {
 	grid_options = options;
@@ -27,6 +32,7 @@ function build_grid(options) {
 
 				text += '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell"></div>';
 				new_user_cell = $(text) 
+				all_user_cells.push($(text))
 				new_user_cell.css('width', cell_dimension.toString() + '%');
 				new_user_cell.css('height', cell_dimension.toString() + '%');
 				new_user_cell.addClass('user-grid-cell')
@@ -35,6 +41,7 @@ function build_grid(options) {
 				new_machine_cell.removeClass('user-grid-cell');
 				new_machine_cell.addClass('machine-grid-cell');
 				$('#machine_side').append(new_machine_cell);
+				all_machine_cells.push(new_machine_cell)
 				text = ''
 
 			}
@@ -74,7 +81,7 @@ function build_ship(target_side) {
 			})
 
 			if(_.isUndefined(existing_cell)){
-				$(match).css('background', 'red');
+				// this.css('background', 'red');
 				this.hit_cells.push($(match));
 			
 			}
@@ -127,12 +134,12 @@ function build_ship(target_side) {
 	if(target_side=='user') {
 
 		$(ship_cells).css('background', 'blue');
-		$(this).addClass('user-ship-cell');
+		$(ship_cells).addClass('user-ship-cell');
 
 	} else if(target_side=='machine') {
 
 		$(ship_cells).css('background', 'blue');
-		$(this).addClass('machine-ship-cell');
+		$(ship_cells).addClass('machine-ship-cell');
 	};
 
 	
@@ -150,12 +157,20 @@ function find_cell_at(x, y, target_side) {
 }
 
 
+function machine_locate(index) {
+	var selector = _.find(all_user_cells, function(cell) { return cell == index; });
+	return($(selector)[0])
+}
+	
 
-function ship_is_hit() {}
 
+function machine_find_cell_at(x, y) {
+	var selector = '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell user-grid-cell"></div>';
+	return ($(selector))
+	
+}
 
-
-
+// function ship_is_hit() {}
 
 
 // TASKS
