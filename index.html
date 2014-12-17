@@ -43,37 +43,49 @@
 
         <script type="text/javascript">
           $(document).ready(function(event){
-            var selectValues;
+            var game_options;
 
             $("#start_button").click(function(event){
-              selectValues = {
-                easy: {
-                  title:"Easy",
-                  grid_size: 5
+              game_options = {
+
+                difficulty_selections: {
+                  easy: {
+                    title:"Easy",
+                    grid_size: 5
+                  },
+
+                  medium: {
+                    title: "Medium",
+                    grid_size: 15
+                  },
+
+                  hard: {
+                    title: "Hard",
+                    grid_size: 20
+                  },
+
+                  impossible: {
+                    title:"Impossible",
+                    grid_size: 30
+                  },
                 },
 
-                medium: {
-                  title: "Medium",
-                  grid_size: 15
-                },
+                forKeyString: function(key_string) {
+                  difficulty_selection_keys = Object.keys(this.difficulty_selections);
 
-                hard: {
-                  title: "Hard",
-                  grid_size: 20
-                },
+                  selected_option = _.filter(difficulty_selection_keys, function(key) {
+                    return(key == key_string);
+                  });
 
-                impossible: {
-                  title:"Impossible",
-                  grid_size: 30
+                  return(this.difficulty_selections[selected_option])
                 }
               }
 
-              $.each(selectValues, function(key, value){
+              $.each(game_options.difficulty_selections, function(key, value){
                 option = $("<option/>")
                 option.val(key)
                 option.text(value.title)
-                option.data("size", ['value.grid_size'])
-                
+
                 //need to find out how to append data in function above so I can append data-size = value.grid_size for machine_logic
 
                 $("#game_options select").append(option)
@@ -149,8 +161,14 @@
 
               if ( $( "option:selected" ).val() == "easy" ) {
                   // var lastIndex = all_user_cells[all_user_cells.length-1];
+                  var first_cell = all_user_cells[0]
+                  var first_user_cell_x = first_cell.data("x")
+                  var first_user_cell_y = first_cell.data("y")
 
-                  var xy_guess = _.random(all_user_cells[0], all_user_cells[all_user_cells.length-1]);
+                  var x_guess = _.random(0, grid_size);
+                  var y_guess = _.random(0, grid_size);
+
+
 
                   // var x_possible = _.range(all_user_cells[0], lastIndex);
                   // var y_possible = _.range(all_user_cells[0], lastIndex);
@@ -204,7 +222,7 @@
               // unique_match = _.isUndefined(_.findWhere(past_hits, match));
 
 
-              match = machine_locate(xy_guess);
+              match = find_cell_at(x_guess, y_guess, 'user');
 
               var index = all_user_cells.indexOf(match);
               all_user_cells.splice(index, 1);
@@ -216,7 +234,7 @@
                 past_hits.push(match);
 
               } else {
-                alert("The Machine missed at = " + xy_guess)
+                alert("The Machine missed at = ")
                 $(match).addClass('hit-cell')
                 $(match).css('background', 'red')
                 past_hits.push(match);
@@ -228,46 +246,21 @@
             })
             })
 
-
-
-
-
-
-
             // //additions
             $( "#game_options .submit" ).click(function( event ) {
-              if ( $( "option:selected" ).val() == "easy" ) {
+              var selectedOption = $( "option:selected" ).val();
+              var selected_difficulty = game_options.forKeyString(selectedOption);
+              var size = selected_difficulty.grid_size;
+              grid_size = size;
 
-                start(selectValues.easy.grid_size);
-                $("#game_options").fadeOut();
-                $("#machine_fire").fadeIn();
-
-              } else if( $( "option:selected" ).val() == "medium" ) {
-
-                start(selectValues.medium.grid_size);
-                $("#game_options").fadeOut();
-                $("#machine_fire").fadeIn();
-
-              } else if( $( "option:selected" ).val() == "hard" ) {
-
-                start(selectValues.hard.grid_size);
-                $("#game_options").fadeOut();
-                $("#machine_fire").fadeIn();
-
-              } else if( $( "option:selected" ).val() == "impossible" ) {
-
-                start(selectValues.impossible.grid_size);
-                $("#game_options").fadeOut();
-                $("#machine_fire").fadeIn();
-
-              }
+              start(size);
+              $("#game_options").fadeOut();
+              $("#machine_fire").fadeIn();
 
               game_handlers();
-
             })
 
             machine_fire();
-            
           });
 
         </script>

@@ -2,12 +2,10 @@ var all_user_cells = [];
 var all_machine_cells = [];
 
 var grid;
-
 var grid_options;
-
+var grid_size;
 var user_ship;
 var machine_ship;
-
 var past_hits = [];
 
 function start(options) {
@@ -31,7 +29,7 @@ function build_grid(options) {
 			for(x = 1; x <= board_size; x++) {
 
 				text += '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell"></div>';
-				new_user_cell = $(text) 
+				new_user_cell = $(text)
 				all_user_cells.push($(text))
 				new_user_cell.css('width', cell_dimension.toString() + '%');
 				new_user_cell.css('height', cell_dimension.toString() + '%');
@@ -47,14 +45,14 @@ function build_grid(options) {
 			}
 
 		};
-		
+
 }
 
 function randomly_place_ships() {
-	
+
 	user_ship = build_ship('user');
 	machine_ship = build_ship('machine');
-	
+
 
 }
 
@@ -83,15 +81,15 @@ function build_ship(target_side) {
 			if(_.isUndefined(existing_cell)){
 				// this.css('background', 'red');
 				this.hit_cells.push($(match));
-			
+
 			}
-	
+
 		}
 
 	}
 
 	// pick random number between variables above
-	//var ship_size = 
+	//var ship_size =
 
 	// pick random x between 1 and board size
 	start_x = _.random(1, board_size);
@@ -142,8 +140,8 @@ function build_ship(target_side) {
 		$(ship_cells).addClass('machine-ship-cell');
 	};
 
-	
-	
+
+
 	battleShip.cells = ship_cells;
 
 	return battleShip;
@@ -161,13 +159,13 @@ function machine_locate(index) {
 	var selector = _.find(all_user_cells, function(cell) { return cell == index; });
 	return($(selector)[0])
 }
-	
+
 
 
 function machine_find_cell_at(x, y) {
 	var selector = '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell user-grid-cell"></div>';
 	return ($(selector))
-	
+
 }
 
 // function ship_is_hit() {}
