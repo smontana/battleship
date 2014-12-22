@@ -29,12 +29,12 @@ function build_grid(options) {
 			for(x = 1; x <= board_size; x++) {
 
 				text += '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell"></div>';
-				all_user_cells.push($(text))
 				new_user_cell = $(text)
 				new_user_cell.css('width', cell_dimension.toString() + '%');
 				new_user_cell.css('height', cell_dimension.toString() + '%');
 				new_user_cell.addClass('user-grid-cell')
 				$('#user_side').append(new_user_cell);
+				all_user_cells.push(find_cell_at(new_user_cell.data("x"), new_user_cell.data("y"), 'user'))
 				new_machine_cell = new_user_cell.clone();
 				new_machine_cell.removeClass('user-grid-cell');
 				new_machine_cell.addClass('machine-grid-cell');

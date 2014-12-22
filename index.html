@@ -167,66 +167,36 @@
 
             })
             })
-
-            
-        
-
-            //testing machine firing logic
   
             $("#machine_fire").click(function(event){
 
-              // var first_user_cell_x = first_cell.data("x");
-              // var first_user_cell_y = first_cell.data("y");
-
-              // var last_user_cell_x = last_cell.data("x");
-              // var last_user_cell_y = last_cell.data("y");
-
-              // var x_guess = _.random(first_user_cell_x, last_user_cell_x);
-              // var y_guess = _.random(first_user_cell_y, last_user_cell_y);
-
-              // var match = find_cell_at(x_guess, y_guess, 'user');
-
-              // var xy_guess = _.random(all_user_cells[0], all_user_cells.length);
-
-              // var match = find_cell_at(x_guess, y_guess, 'user');
-
-              // check if match has already been selected
-
-              // var already_selected = _.filter(all_user_cells, function(cell){
-              //   return(cell.data("x") == x_guess && cell.data("y") == y_guess)
-              // })
-
-              // if ( _.isUndefined(already_selected) ) {
-
-
               var first_cell = all_user_cells[0];
               var last_cell_finder = all_user_cells.length - 1;
-              var last_cell = all_user_cells[last_cell_finder];
+              var last_cell = all_user_cells[(last_cell_finder)];
 
               var random_cell_selector = _.random(0, last_cell_finder);
-              var cell_selected_div = all_user_cells[random_cell_selector];
+              var cell_selected_div = all_user_cells[(random_cell_selector)];
 
-              var cell_selected_x = cell_selected_div.data("x");
-              var cell_selected_y = cell_selected_div.data("y");
+              var cell_selected_x = $(cell_selected_div).data("x");
+              var cell_selected_y = $(cell_selected_div).data("y");
 
               var match = find_cell_at(cell_selected_x, cell_selected_y, 'user');
 
-              var index = match;
-              all_user_cells.splice(index, 1);
+              var remaining_unique_hits = all_user_cells;
+              var hit_index = match;
 
-              // } else {
-              //   machine_fire();
-                //if already_selected comes back as undefined, then it is a Unique hit, and we will allow it to pass. Otherwise, we will run machine_logic() again to find a unique cell target. Need to move ifElse below up
-              // }
+              all_user_cells = jQuery.grep(all_user_cells, function(value) {
+                return value != hit_index;
+              })
 
               if($(match).hasClass("user-ship-cell")) {
-                alert("The Machine hit your ship")
+                alert("The Machine hit your ship = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
                 $(match).addClass('hit-cell')
                 $(match).css('background', 'red')
                 past_hits.push(match);
 
               } else {
-                alert("The Machine hit your ship at = ")
+                alert("The Machine missed = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
                 $(match).addClass('hit-cell')
                 $(match).css('background', 'red')
                 past_hits.push(match);
