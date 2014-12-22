@@ -29,8 +29,8 @@ function build_grid(options) {
 			for(x = 1; x <= board_size; x++) {
 
 				text += '<div data-x="' + x + '"' + ' data-y="' + y + '"' + ' class="grid-cell"></div>';
-				new_user_cell = $(text)
 				all_user_cells.push($(text))
+				new_user_cell = $(text)
 				new_user_cell.css('width', cell_dimension.toString() + '%');
 				new_user_cell.css('height', cell_dimension.toString() + '%');
 				new_user_cell.addClass('user-grid-cell')
@@ -39,7 +39,7 @@ function build_grid(options) {
 				new_machine_cell.removeClass('user-grid-cell');
 				new_machine_cell.addClass('machine-grid-cell');
 				$('#machine_side').append(new_machine_cell);
-				all_machine_cells.push(new_machine_cell)
+				all_machine_cells.push(find_cell_at(new_machine_cell.data("x"), new_machine_cell.data("y"), 'machine'))
 				text = ''
 
 			}

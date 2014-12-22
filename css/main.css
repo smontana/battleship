@@ -35,19 +35,22 @@ html, body, #grid {
 }
 
 .submit {
-  padding: .65em;
+  padding: 5px;
   border-radius: 0.3em;
   background: #267E8A;
   color: #FCFCFC;
   text-decoration: none;
+  font-weight: 700;
   top: 1.5em;
   position: relative;
   font:.85em Futura, ‘Century Gothic’, AppleGothic, sans-serif;
   -moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;
-  border-bottom:1px solid #9f9f9f;
+  border-bottom:1px solid #FCFCFC;
   -moz-box-shadow:inset 0 1px 0 rgba(38, 126, 138, 1);-webkit-box-shadow:inset 0 1px 0 rgba(38, 126, 138, 1);box-shadow:inset 0 1px 0 rgba(38, 126, 138, 1);
   cursor: pointer;
   background-color:rgba(38, 126, 138, 1);
+  -webkit-font-smoothing: antialiased;
+  border: inset;
 }
 
 .submit:hover{background-color:rgba(255,204,0,0.8);}
@@ -87,6 +90,8 @@ input {
 #machine_fire:hover{background-color:rgba(255,204,0,0.8);}
 
 h1 {
+  padding: 3px;
+  text-rendering: geometricPrecision;
   text-align: center;
   background: #267E8A;
   border: 3px solid #FCFCFC;
@@ -138,4 +143,7 @@ h1 {
   padding-top: 5%;
 }
 
+/*.heading-text {
+  margin-bottom: 1px;
+}*/
 

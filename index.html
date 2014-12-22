@@ -5,32 +5,62 @@
     <title>Battle | Ship</title>
     <style type="text/css">BODY {background-image: url(background.gif);}</style>
     <link href="css/main.css" type="text/css" rel="stylesheet"></link>
+    <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet"></link>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/underscore.min.js"></script>
 
   </head>
 
-
   <body>
 
     <div id="startup">
 
-      <button id="start_button">START</button>
+      <button id="start_button">
+
+        <i class="fa fa-bolt pull-left"></i>
+
+          START
+
+      </button>
 
       <div id="game_options">
+
         <select></select>
+
         <br/>
-        <a href="#" class="btn submit">Submit</a>
+
+        <a href="#" class="btn submit">
+
+          SUBMIT
+
+        </a>
+
       </div>
 
     </div>
 
     <div id="grid">
       
-      <div id="user_side" class="user-side"><h1>You</h1></div>
+      <div id="user_side" class="user-side">
 
-      <div id="machine_side" class="machine-side"><h1>The Machine</h1></div>
+        <h1>
+
+            You
+
+        </h1>
+
+      </div>
+
+      <div id="machine_side" class="machine-side">
+
+        <h1>
+
+          The Machine
+
+        </h1>
+
+      </div>
 
         <div id="machine_firing_button">
 
@@ -143,89 +173,51 @@
 
             //testing machine firing logic
   
-            machine_fire = (function(){$("#machine_fire").click(function(event){
-              // var board_size = $( "option:selected" ).grid_size.val();
-              // var board_size_value = board_size.grid_size;
-              // var difficulty_selection = $( "option:selected" )['grid_size'].val();
+            $("#machine_fire").click(function(event){
 
-              var x_possible = [];
-              var y_possible = [];
+              // var first_user_cell_x = first_cell.data("x");
+              // var first_user_cell_y = first_cell.data("y");
 
-              var x_guess;
-              var y_guess;
+              // var last_user_cell_x = last_cell.data("x");
+              // var last_user_cell_y = last_cell.data("y");
 
-              var potential_hit_cell;
-              var match;
+              // var x_guess = _.random(first_user_cell_x, last_user_cell_x);
+              // var y_guess = _.random(first_user_cell_y, last_user_cell_y);
 
-              //need major refactor
+              // var match = find_cell_at(x_guess, y_guess, 'user');
 
-              if ( $( "option:selected" ).val() == "easy" ) {
-                  // var lastIndex = all_user_cells[all_user_cells.length-1];
-                  var first_cell = all_user_cells[0]
-                  var first_user_cell_x = first_cell.data("x")
-                  var first_user_cell_y = first_cell.data("y")
+              // var xy_guess = _.random(all_user_cells[0], all_user_cells.length);
 
-                  var x_guess = _.random(0, grid_size);
-                  var y_guess = _.random(0, grid_size);
+              // var match = find_cell_at(x_guess, y_guess, 'user');
 
+              // check if match has already been selected
 
-
-                  // var x_possible = _.range(all_user_cells[0], lastIndex);
-                  // var y_possible = _.range(all_user_cells[0], lastIndex);
-
-                  // var x_guess = _.random(_.min(x_possible), _.max(x_possible));
-                  // var y_guess = _.random(_.min(y_possible), _.max(y_possible));
-
-              } else if ( $( "option:selected" ).val() == "medium" ) {
-                  var x_possible = _.range(1, 16);
-                  var y_possible = _.range(1, 16);
-
-                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
-                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
-
-
-
-              } else if ( $( "option:selected" ).val() == "hard" ) {
-                  x_possible = _.range(1, 21);
-                  y_possible = _.range(1, 21);
-
-                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
-                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
-
-
-
-              } else if ( $( "option:selected" ).val() == "impossible" ) {
-                  x_possible = _.range(1, 31);
-                  y_possible = _.range(1, 31);
-
-
-                  var x_guess = _.random(_.min(x_possible), _.max(x_possible));
-                  var y_guess = _.random(_.min(y_possible), _.max(y_possible));
-
-
-
-              }
-
-
-
-
-              // match = find_cell_at(x_guess, y_guess, "user");
-
-                // match = _.uniq(user_side.cells, false, function(cell) {
-                //           _.uniq(past_hits, false, function(cell) { return ($(cell).data("x") == x_guess && $(cell).data("y") == y_guess)});
-                //         })
-
-              // match =_.find(user_side.cells, function(cell){
-              //   return _.uniq(user_side.cells, false, function(cell) { return ($(cell).data("x") == x_guess && $(cell).data("y") == y_guess)});
+              // var already_selected = _.filter(all_user_cells, function(cell){
+              //   return(cell.data("x") == x_guess && cell.data("y") == y_guess)
               // })
 
-              // unique_match = _.isUndefined(_.findWhere(past_hits, match));
+              // if ( _.isUndefined(already_selected) ) {
 
 
-              match = find_cell_at(x_guess, y_guess, 'user');
+              var first_cell = all_user_cells[0];
+              var last_cell_finder = all_user_cells.length - 1;
+              var last_cell = all_user_cells[last_cell_finder];
 
-              var index = all_user_cells.indexOf(match);
+              var random_cell_selector = _.random(0, last_cell_finder);
+              var cell_selected_div = all_user_cells[random_cell_selector];
+
+              var cell_selected_x = cell_selected_div.data("x");
+              var cell_selected_y = cell_selected_div.data("y");
+
+              var match = find_cell_at(cell_selected_x, cell_selected_y, 'user');
+
+              var index = match;
               all_user_cells.splice(index, 1);
+
+              // } else {
+              //   machine_fire();
+                //if already_selected comes back as undefined, then it is a Unique hit, and we will allow it to pass. Otherwise, we will run machine_logic() again to find a unique cell target. Need to move ifElse below up
+              // }
 
               if($(match).hasClass("user-ship-cell")) {
                 alert("The Machine hit your ship")
@@ -234,19 +226,16 @@
                 past_hits.push(match);
 
               } else {
-                alert("The Machine missed at = ")
+                alert("The Machine hit your ship at = ")
                 $(match).addClass('hit-cell')
                 $(match).css('background', 'red')
                 past_hits.push(match);
 
               }
 
-
-
-            })
             })
 
-            // //additions
+            //additions
             $( "#game_options .submit" ).click(function( event ) {
               var selectedOption = $( "option:selected" ).val();
               var selected_difficulty = game_options.forKeyString(selectedOption);
@@ -260,7 +249,6 @@
               game_handlers();
             })
 
-            machine_fire();
           });
 
         </script>
