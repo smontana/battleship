@@ -93,26 +93,22 @@ h1 {
   padding: 3px;
   text-rendering: geometricPrecision;
   text-align: center;
-  background: #267E8A;
+  background: #008000 35%;
   border: 3px solid #FCFCFC;
   border-radius: 0.3em;
 }
 
 #grid .grid-cell {
- /* width: 33.3333%;
-  height: 33.3333%;*/
-  background: #3BC902;
+  background: radial-gradient(#008000, rgba(0, 0, 0, 0));
   float: left;
-  border: 1px solid #ccc;
+  border: 2.2px solid black;
   box-sizing: border-box;
 }
 
 #grid .machine-grid-cell {
-  /*width: 33.3333%;
-  height: 33.3333%;*/
-  background: #3BC902;
+  background: radial-gradient(#008000, rgba(0, 0, 0, 0));
   float: left;
-  border: 1px solid #ccc;
+  border: 2.2px solid black;
   box-sizing: border-box;
 }
 
@@ -143,7 +139,21 @@ h1 {
   padding-top: 5%;
 }
 
-/*.heading-text {
-  margin-bottom: 1px;
-}*/
 
+/*h1 background styling*/
+
+/*.h1-background {
+  height: 35%;
+  border-radius: 25px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  background: linear-gradient(#008000 1px, rgba(0, 0, 0, 0) 3px), 
+    linear-gradient(90deg, #008000 3px, rgba(0, 0, 0, 0) 3px), 
+    linear-gradient(rgba(0, 255, 0, 0.3) .7px, rgba(0, 0, 0, 0) 1px), 
+    linear-gradient(90deg, rgba(0, 255, 0, 0.3) 1.4px, rgba(0, 0, 0, 0) 1.4px), #000;
+  background-position-x: -2px, -2px, -1px, -1px;
+  background-position-y: -2px, -2px, -1px, -1px;
+  background-size: 50% 50% , 50% 50% , 10% 10%, 10% 10%;
+}*/
