@@ -43,39 +43,68 @@
     </div>
 
     <div id="grid">
+
+      <!-- <div class="grid-back"> -->
       
-      <div id="user_side" class="user-side">
+        <div id="user_side" class="user-side">
 
-        <h1>
+          <h1>
 
-            <div class="h1-background">
+            You
 
-              You
-
-            </div>
-
-        </h1>
-
-      </div>
-
-      <div id="machine_side" class="machine-side">
-
-        <h1>
-
-          The Machine
-
-        </h1>
-
-      </div>
-
-        <div id="machine_firing_button">
-
-          <button id="machine_fire">MACHINE FIRE</button>
+          </h1>
 
         </div>
 
+      <!-- </div> -->
+
+      <!-- <div class="grid-back"> -->
+
+        <div id="machine_side" class="machine-side">
+
+          <h1>
+
+            The Machine
+
+          </h1>
+
+        </div>
+
+      <!-- </div> -->
+
+        <!-- <div id="machine_firing_button -->">
+
+          <button id="machine_fire">MACHINE FIRE</button>
+
+        <!-- </div> -->
+
+        <!-- <div id="user_name_button"> -->
+
+          <button id="user_lightbox" data-popup-target="#firing-popup">CODE NAME</button>
+
+        <!-- </div> -->
+
+        <div id="firing-popup" class="popup">
+
+          <div class="popup-body">
+
+            <span class="popup-exit"></span>
+ 
+              <div class="popup-content">
+
+                <h2 class="popup-title">
+
+                  Input Code Name
+
+                </h2>
       
-        <!--Refactor-->
+              </div>
+    
+          </div>
+  
+        </div>
+
+        <div class="popup-overlay"></div>
 
         <script type="text/javascript">
           $(document).ready(function(event){
@@ -221,6 +250,7 @@
               start(size);
               $("#game_options").fadeOut();
               $("#machine_fire").fadeIn();
+              $("#user_lightbox").fadeIn();
 
               game_handlers();
             })
@@ -228,6 +258,8 @@
           });
 
         </script>
+
+        
 
     </div>
 
