@@ -43,8 +43,6 @@
     </div>
 
     <div id="grid">
-
-      <!-- <div class="grid-back"> -->
       
         <div id="user_side" class="user-side">
 
@@ -56,10 +54,6 @@
 
         </div>
 
-      <!-- </div> -->
-
-      <!-- <div class="grid-back"> -->
-
         <div id="machine_side" class="machine-side">
 
           <h1>
@@ -70,41 +64,7 @@
 
         </div>
 
-      <!-- </div> -->
-
-        <!-- <div id="machine_firing_button -->">
-
-          <button id="machine_fire">MACHINE FIRE</button>
-
-        <!-- </div> -->
-
-        <!-- <div id="user_name_button"> -->
-
-          <button id="user_lightbox" data-popup-target="#firing-popup">CODE NAME</button>
-
-        <!-- </div> -->
-
-        <div id="firing-popup" class="popup">
-
-          <div class="popup-body">
-
-            <span class="popup-exit"></span>
- 
-              <div class="popup-content">
-
-                <h2 class="popup-title">
-
-                  Input Code Name
-
-                </h2>
-      
-              </div>
-    
-          </div>
-  
-        </div>
-
-        <div class="popup-overlay"></div>
+          <button id="machine_fire">MACHINE FIRE</button> 
 
         <script type="text/javascript">
           $(document).ready(function(event){
@@ -133,6 +93,7 @@
                     title:"Impossible",
                     grid_size: 20
                   },
+
                 },
 
                 forKeyString: function(key_string) {
@@ -140,10 +101,13 @@
 
                   selected_option = _.filter(difficulty_selection_keys, function(key) {
                     return(key == key_string);
+
                   });
 
                   return(this.difficulty_selections[selected_option])
+
                 }
+
               }
 
               $.each(game_options.difficulty_selections, function(key, value){
@@ -155,12 +119,7 @@
 
                 $("#game_options select").append(option)
                 $("#game_options").fadeIn();
-
-                //additions
-
                 $("#start_button").fadeOut();
-
-
 
               })
 
@@ -171,11 +130,9 @@
               var y = $(this).data("y");
               var total_possible_hits = machine_ship.size;
 
-
               match = _.find(machine_ship.cells, function(cell){
                 return($(cell).data("x") == x && $(cell).data("y") == y);
               })
-
 
               if($(this).hasClass("user-grid-cell")==true) {
                 alert('wrong board, dummy')
@@ -193,14 +150,10 @@
                 $(this).css('background', 'red')
               }
 
-              // if(total_possible_hits == machine_ship.hit_cells.length) {
-              //   alert('YOU SANK THE SHIP!')
-              //   $()
-
                 // TODO: expand for more ship = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
-              // }
 
-            })
+              })
+
             })
   
             $("#machine_fire").click(function(event){
@@ -240,7 +193,6 @@
 
             })
 
-            //additions
             $( "#game_options .submit" ).click(function( event ) {
               var selectedOption = $( "option:selected" ).val();
               var selected_difficulty = game_options.forKeyString(selectedOption);
@@ -253,13 +205,12 @@
               $("#user_lightbox").fadeIn();
 
               game_handlers();
+
             })
 
           });
 
         </script>
-
-        
 
     </div>
 
