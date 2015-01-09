@@ -1,0 +1,66 @@
+html, body{
+	height: 100%;
+	width: 100%;
+}
+
+#nav_bar {
+	position: fixed;
+	width: 100%;
+	height: 80px;
+}
+
+#start_up {
+	width: 100%;
+	height: auto;
+	padding: 1px;
+}
+
+#start_button {
+  float: left;
+  overflow: hidden;
+  margin: 5px 0 0 47%;
+  cursor: pointer;
+  padding: 5px;
+  color: #FCFCFC;
+  background-color: #267E8A;
+  border-radius: 10px;
+  border-bottom-color: #FAEBD7;
+  font: .85em Futura, Ã¢â‚¬ËœCentury GothicÃ¢â‚¬â„¢, AppleGothic, sans-serif;
+}
+
+#start_button:hover{background-color:rgba(255,204,0,0.8);}
+
+#game_options {
+  display: none;
+  margin: 0 auto;
+  width: 100px;
+  text-align: center;
+}
+
+.submit {
+  position: relative;
+  top: 1.5em;
+  padding: 5px;
+  color: #FCFCFC;
+  background-color: #267E8A;
+  cursor: pointer;
+  text-decoration: none;
+  border-style: outset;
+  border-radius: 10px;
+  border-bottom-color: #FAEBD7;
+  font: .85em Futura, â€˜Century Gothicâ€™, AppleGothic, sans-serif;
+}
+
+.submit:hover{background-color:rgba(255,204,0,0.8);}
+
+select, option {
+  background: #267E8A;
+  color: #FCFCFC;
+}
+
+input {
+  margin-top: 5px;
+  margin-left: 15;
+  background: #267E8A;
+  color: #FCFCFC;
+}
