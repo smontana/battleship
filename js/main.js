@@ -7,6 +7,8 @@ var grid_size;
 var user_ship;
 var machine_ship;
 var past_hits = [];
+var good_hits_machine = [];
+var good_hits_user = [];
 
 function start(options) {
 	grid_options = options;
@@ -182,7 +184,6 @@ function build_ship(target_side) {
 }
 
 
-
 function find_cell_at(x, y, target_side) {
 	var selector = "div." + target_side + "-grid-cell[data-x='" + x.toString() + "'][data-y='" + y.toString() + "']";
 	return($(selector)[0])
@@ -193,7 +194,6 @@ function machine_locate(index) {
 	var selector = _.find(all_user_cells, function(cell) { return cell == index; });
 	return($(selector)[0])
 }
-
 
 
 function machine_find_cell_at(x, y) {
@@ -302,13 +302,19 @@ function ingame_handlers() {
                 machine_ship.add_hit_cell(match)
                 $(this).addClass('hit-cell')
                 $(this).css('background', 'red')
+                good_hits_user.push(match)
               }
+
+              if(good_hits_user.length == machine_ship.size) {
+                alert("You sunk the Machine's ship! GAME OVER")
+
+            }
 
                 // TODO: expand for more ship = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
 
-              })
+        })
 
-            })
+    })
 
 }
 
@@ -316,40 +322,48 @@ function ingame_handlers() {
 function machine_fire_logic() {
 	$("#machine_fire").click(function(event){
 
-              var first_cell = all_user_cells[0];
-              var last_cell_finder = all_user_cells.length - 1;
-              var last_cell = all_user_cells[(last_cell_finder)];
+            var first_cell = all_user_cells[0];
+            var last_cell_finder = all_user_cells.length - 1;
+            var last_cell = all_user_cells[(last_cell_finder)];
 
-              var random_cell_selector = _.random(0, last_cell_finder);
-              var cell_selected_div = all_user_cells[(random_cell_selector)];
+            var random_cell_selector = _.random(0, last_cell_finder);
+            var cell_selected_div = all_user_cells[(random_cell_selector)];
 
-              var cell_selected_x = $(cell_selected_div).data("x");
-              var cell_selected_y = $(cell_selected_div).data("y");
+            var cell_selected_x = $(cell_selected_div).data("x");
+            var cell_selected_y = $(cell_selected_div).data("y");
 
-              var match = find_cell_at(cell_selected_x, cell_selected_y, 'user');
+            var match = find_cell_at(cell_selected_x, cell_selected_y, 'user');
 
-              var remaining_unique_hits = all_user_cells;
-              var hit_index = match;
+            var remaining_unique_hits = all_user_cells;
+            var hit_index = match;
 
-              all_user_cells = jQuery.grep(all_user_cells, function(value) {
-                return value != hit_index;
-              })
-
-              if($(match).hasClass("user-ship-cell")) {
-                alert("The Machine hit your ship = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
-                $(match).addClass('hit-cell')
-                $(match).css('background', 'red')
-                past_hits.push(match);
-
-              } else {
-                alert("The Machine missed = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
-                $(match).addClass('hit-cell')
-                $(match).css('background', 'red')
-                past_hits.push(match);
-
-              }
-
+            all_user_cells = jQuery.grep(all_user_cells, function(value) {
+              return value != hit_index;
             })
+
+            if($(match).hasClass("user-ship-cell")) {
+              alert("The Machine hit your ship = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
+              $(match).addClass('hit-cell')
+              $(match).css('background', 'red')
+              past_hits.push(match)
+              good_hits_machine.push(match);
+
+            } else {
+              alert("The Machine missed = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
+              $(match).addClass('hit-cell')
+              $(match).css('background', 'red')
+              past_hits.push(match);
+
+            }
+
+            if(good_hits_machine.length == user_ship.size) {
+                alert("The Machine has sunk your ship! GAME OVER")
+
+            }
+
+
+
+    })
 
 }
 
