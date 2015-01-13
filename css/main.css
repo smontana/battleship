@@ -70,39 +70,6 @@ input {
 /*End of nav_bar div*/
 
 
-/*Button to initiate/test machine firing -- Remove button aspect and script out*/
-
-#machine_fire {
-  display: none;
-  float: right;
-  overflow: hidden;
-  margin: 10% 27% 0 0;
-  padding: 5px;
-  border-radius: 0.3em;
-  background: #267E8A;
-  color: #FCFCFC;
-  text-decoration: none;
-  font-weight: 700;
-  top: 1.5em;
-  text-align: center;
-  text-decoration: none;
-  font: .85em Futura, â€˜Century Gothicâ€™, AppleGothic, sans-serif;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  border-bottom: 1px solid #FCFCFC;
-  -moz-box-shadow: inset 0 1px 0 rgba(38, 126, 138, 1);
-  -webkit-box-shadow: inset 0 1px 0 #267E8A;
-  box-shadow: inset 0 1px 0 #267E8A;
-  cursor: pointer;
-  background-color: #267E8A;
-}
-
-#machine_fire:hover{background-color:rgba(255,204,0,0.8);}
-
-/*End of machine firing button*/
-
-
 /*Beginning of grid div*/
 
 #grid {

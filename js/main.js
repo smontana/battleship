@@ -55,14 +55,13 @@ function randomly_place_ships() {
 	user_ship = build_ship('user');
 	machine_ship = build_ship('machine');
 
-
 }
 
 function build_ship(target_side) {
 	var board_size = grid_options;
 
 	var max_ship_width = _.random(1, (board_size*.5));
-	var min_ship_width = _.random(1, (board_size*.2));
+	var min_ship_width = _.random(1, (board_size*.4));
 
 
 	var battleShip = {
@@ -75,13 +74,11 @@ function build_ship(target_side) {
 			})
 		},
 		add_hit_cell: function (match) {
-			// todo: check that match is not already in hit cells before push
 			existing_cell = _.filter(target_side.hit_cells, function(cell){
 				return((match.data('x') == cell.data('x')) && (match.data('y') == cell.data('y')));
 			})
 
 			if(_.isUndefined(existing_cell)){
-				// this.css('background', 'red');
 				this.hit_cells.push($(match));
 
 			}
@@ -173,7 +170,6 @@ function build_ship(target_side) {
 
 		} else if(target_side=='machine') {
 
-			$(ship_cells).css('background', 'blue');
 			$(ship_cells).addClass('machine-ship-cell');
 		};
 
@@ -250,8 +246,6 @@ function set_game_options () {
                 option.val(key)
                 option.text(value.title)
 
-                //need to find out how to append data in function above so I can append data-size = value.grid_size for machine_logic
-
                 $("#game_options select").append(option)
                 $("#game_options").fadeIn();
                 $("#start_button").fadeOut();
@@ -296,6 +290,7 @@ function ingame_handlers() {
 
               } else if(_.isUndefined(match)) {
                 alert('miss!')
+                $(this).css('background', 'black');
 
               } else {
                 alert('hit!')
@@ -308,9 +303,11 @@ function ingame_handlers() {
               if(good_hits_user.length == machine_ship.size) {
                 alert("You sunk the Machine's ship! GAME OVER")
 
+            } else {
+            	setTimeout(machine_fire_logic, 250);
             }
 
-                // TODO: expand for more ship = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
+                // TODO: expand for more ships = something like sunk_machine_ships.add_sunk_ship(match something unique like name from each ship)
 
         })
 
@@ -320,7 +317,6 @@ function ingame_handlers() {
 
 
 function machine_fire_logic() {
-	$("#machine_fire").click(function(event){
 
             var first_cell = all_user_cells[0];
             var last_cell_finder = all_user_cells.length - 1;
@@ -361,14 +357,7 @@ function machine_fire_logic() {
 
             }
 
-
-
-    })
-
 }
-
-
-// function ship_is_hit() {}
 
 
 // TASKS
