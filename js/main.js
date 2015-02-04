@@ -59,13 +59,13 @@ function randomly_place_ships() {
 
 function build_ship(target_side) {
 	var board_size = grid_options;
+  var available_x_and_y_coordinates = (grid_options )
 
-	var max_ship_width = _.random(1, (board_size*.5));
-	var min_ship_width = _.random(1, (board_size*.4));
-
+	var battleShip_width = 3;
+	var submarine_width = 2;
 
 	var battleShip = {
-		size: _.random(max_ship_width, min_ship_width),
+		size: battleShip_width,
 		cells: {},
 		hit_cells: [],
 		hit_cell_coordinates: function(){
@@ -73,19 +73,43 @@ function build_ship(target_side) {
 				return([hit_cell.data("x"), hit_cell.data("y")]);
 			})
 		},
+
 		add_hit_cell: function (match) {
 			existing_cell = _.filter(target_side.hit_cells, function(cell){
 				return((match.data('x') == cell.data('x')) && (match.data('y') == cell.data('y')));
 			})
 
-			if(_.isUndefined(existing_cell)){
-				this.hit_cells.push($(match));
+			 if(_.isUndefined(existing_cell)){
+				  this.hit_cells.push($(match));
+        }
 
 			}
 
 		}
 
-	}
+  var submarine = {
+    size: submarine_width,
+    cells: {},
+    hit_cells: [],
+    hit_cell_coordinates: function(){
+      return _.map(this.hit_cells, function(hit_cell){
+        return([hit_cell.data("x"), hit_cell.data("y")]);
+      })
+    },
+
+    add_hit_cell: function (match) {
+      existing_cell = _.filter(target_side.hit_cells, function(cell){
+        return((match.data('x') == cell.data('x')) && (match.data('y') == cell.data('y')));
+      })
+
+       if(_.isUndefined(existing_cell)){
+          this.hit_cells.push($(match));
+        }
+
+      }
+
+    }
+
 
 	// pick random number between variables above
 	//var ship_size =
@@ -103,65 +127,79 @@ function build_ship(target_side) {
 
 	ship_cells = [];
 
-	// debugger;
 	//determining ship placement - x axis or y axis
-	//1 = x | 2 = y
-
+  // x-axis = 1
+  // y-axis = 2
 	place_x_or_y_axis = _.random(1, 2);
 
+    //x-axis left or right placement
 	if (place_x_or_y_axis == 1) {
 
-		var ship_is_not_too_far_right = function(){
-			return( (board_size - start_x) > battleShip['size'] );
-		}
+      //x-axis vars
 
-		var draw_ship_to_the_right = function () {
-			_(battleShip['size']).times(function(n){
-				x_index = start_x + n;
-				ship_cells.push(find_cell_at(x_index, start_y, target_side));
-			});
-		}
+      var ship_is_not_too_far_right = function(){
+          return( (board_size - start_x) > battleShip['size'] );
+        }
 
-		var draw_ship_to_the_left = function (){
-			_(battleShip['size']).times(function(n){
-				x_index = start_x - n;
-				ship_cells.push(find_cell_at(x_index, start_y, target_side));
-			});
-		}
+      var draw_ship_to_the_right = function () {
+          _(battleShip['size']).times(function(n){
+            x_index = start_x + n;
+            ship_cells.push(find_cell_at(x_index, start_y, target_side));
+          });
+        }
 
-		if( ship_is_not_too_far_right() ) {
-			draw_ship_to_the_right();
-		} else {
-			draw_ship_to_the_left();
-		}
+      var draw_ship_to_the_left = function (){
+          _(battleShip['size']).times(function(n){
+            x_index = start_x - n;
+            ship_cells.push(find_cell_at(x_index, start_y, target_side));
+          });
+        }
 
-	} else if(place_x_or_y_axis == 2) {
+        if(ship_is_not_too_far_right) {
 
-		var ship_is_not_too_far_up = function(){
-			return( (board_size - start_y) > battleShip['size'] );
-		}
+			       draw_ship_to_the_right();
 
-		var draw_ship_up = function () {
-			_(battleShip['size']).times(function(n){
-				y_index = start_y + n;
-				ship_cells.push(find_cell_at(start_x, y_index, target_side));
-			});
-		}
+		    } else {
 
-		var draw_ship_down = function (){
-			_(battleShip['size']).times(function(n){
-				y_index = start_y - n;
-				ship_cells.push(find_cell_at(start_x, y_index, target_side));
-			});
-		}
+			       draw_ship_to_the_left();
 
-		if( ship_is_not_too_far_up() ) {
-			draw_ship_up();
-		} else {
-			draw_ship_down();
-		}
+		    }
 
-	}
+
+    } else if (place_x_or_y_axis == 2) {
+
+        //y-axis vars
+
+      var ship_is_not_too_far_up = function(){
+          return( (board_size - start_y) > battleShip['size'] );
+          }
+
+      var draw_ship_up = function () {
+            _(battleShip['size']).times(function(n){
+              y_index = start_y + n;
+              ship_cells.push(find_cell_at(start_x, y_index, target_side));
+            });
+          }
+
+      var draw_ship_down = function (){
+            _(battleShip['size']).times(function(n){
+              y_index = start_y - n;
+              ship_cells.push(find_cell_at(start_x, y_index, target_side));
+            });
+          }
+
+        if(ship_is_not_too_far_up) {
+
+            draw_ship_up();
+
+      		} else {
+
+      			draw_ship_down();
+
+      		}
+
+  }
+
 
 	if(target_side=='user') {
 
@@ -262,8 +300,17 @@ function set_game_options () {
 
               start(size);
               $("#game_options").fadeOut();
-              $("#machine_fire").fadeIn();
-              $("#user_lightbox").fadeIn();
+
+
+
+
+
+
+
+
+
+
+
 
               game_handlers();
 
@@ -359,6 +406,77 @@ function machine_fire_logic() {
 
 }
 
+function machine_fire_logic_med() {
+
+            var first_cell = all_user_cells[0];
+            var last_cell_finder = all_user_cells.length - 1;
+            var last_cell = all_user_cells[(last_cell_finder)];
+
+            var random_cell_selector = _.random(0, last_cell_finder);
+            var cell_selected_div = all_user_cells[(random_cell_selector)];
+
+            var cell_selected_x = $(cell_selected_div).data("x");
+            var cell_selected_y = $(cell_selected_div).data("y");
+
+            var match = find_cell_at(cell_selected_x, cell_selected_y, 'user');
+
+            //further logic
+            var last_hit = good_hits_machine.length - 1;
+            var last_hit_cell_location_x = $(last_hit).data("x");
+            var last_hit_cell_location_y = $(last_hit).data("y");
+
+            var next_hit_x = function () {
+            	if (last_hit_cell_location_x == board_size){
+            	    next_hit_x_location = last_hit_cell_location_x - 1;
+            	
+            	} else if (last_hit_cell_location_x >= 1) {
+            		next_hit_x_location = last_hit_cell_location_x + 1;
+
+            	}
+            }
+
+            var next_hit = find_cell_at(next_hit_x_location, cell_selected_y, 'user');
+
+            //End further logic
+
+
+            var remaining_unique_hits = all_user_cells;
+            var hit_index = match;
+
+            all_user_cells = jQuery.grep(all_user_cells, function(value) {
+              return value != hit_index;
+            })
+
+            if($(match).hasClass("user-ship-cell")) {
+              alert("The Machine hit your ship = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
+              $(match).addClass('hit-cell')
+              $(match).css('background', 'red')
+              past_hits.push(match)
+              good_hits_machine.push(match);
+
+            // } else if (past_hits !== undefined && ) 
+
+
+
+
+
+
+            } else {
+              alert("The Machine missed = X: " + cell_selected_x + " " + "Y: " + cell_selected_y )
+              $(match).addClass('hit-cell')
+              $(match).css('background', 'red')
+              past_hits.push(match);
+
+            }
+
+            if(good_hits_machine.length == user_ship.size) {
+                alert("The Machine has sunk your ship! GAME OVER")
+
+            }
+
+}
+
+// function user_ship_placement ()
 
 // TASKS
 

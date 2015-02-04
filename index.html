@@ -2,10 +2,16 @@
 
   <head>
 
-    <title>Battle | Ship</title>
+    <meta charset="UTF-8">
+    <title>Battleship</title>
+    <meta name="description" content="A web-based representation of the game, Battleship">
+    <meta name="author" content="Stephen Montana">
+    <meta name="keywords" content="Battleship">
+    <link rel="shortcut icon" href="favicon.ico" />
     <style type="text/css">BODY {background-image: url(background.gif);}</style>
     <link href="css/main.css" type="text/css" rel="stylesheet"></link>
     <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet"></link>
+    <link href="css/modal.css" type="text/css" rel="stylesheet"></link>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/underscore.min.js"></script>
@@ -26,21 +32,48 @@
 
       </button>
 
-      <div id="game_options">
+        <div id="game_options">
 
-        <select></select>
+          <select></select>
 
-        <br/>
+          <br/>
 
-        <a href="#" class="btn submit">
+          <a href="#" class="btn submit">
 
-          SUBMIT
+            SUBMIT
 
-        </a>
+          </a>
+
+        </div>
 
       </div>
 
-    </div>
+      <div id="game_info">
+
+        <button id="trigger" class="trigger-button" type="button">
+
+          <i class="fa fa-info-circle"></i>
+
+        </button>
+
+          <div id="content">
+
+            <h2><b>Mission Objective</b></h2>
+            <p id="mission_objective">Sink The Machine's battleship before it sinks yours</p>
+            <p>Briefing</p>
+            <ul>
+              <li>Click on one of The Machine's grid cells to fire at it</li>
+              <li>The Machine will then fire at your grid</li>
+              <li>Your hits will turn red</li>
+              <li>Your misses will turn black</li>
+              <li>Cells that The Machine fires at will turn red</li>
+            </ul>
+
+          </div>
+
+        <script type="text/javascript" src="js/modal.js" charset="utf-8" async defer></script>
+
+      </div>
 
   </div>
 
@@ -74,7 +107,6 @@
           $(document).ready(function(event){
             set_game_options();
             ingame_handlers();
-            machine_fire_logic();
   
           });
 
